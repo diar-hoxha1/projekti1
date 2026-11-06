@@ -23,22 +23,22 @@ $role = $_SESSION["role"];
     <div class="login-card">
         <div class="logo">✓</div>
 
-        <h1>Përshëndetje!</h1>
+        <h1>Mirë se erdhe! 👋</h1>
 
         <p class="subtitle">
-            Mirë se erdhe,
-            <?= htmlspecialchars($name, ENT_QUOTES, "UTF-8") ?>.
+            Përshëndetje,
+            <strong><?= htmlspecialchars($name, ENT_QUOTES, "UTF-8") ?></strong>.
         </p>
 
         <?php if ($role === "admin"): ?>
-            <h2>Paneli i administratorit</h2>
+            <h2>⚙ Paneli i administratorit</h2>
             <p class="subtitle">
                 Ti je administrator dhe mund ta menaxhosh ekipin.
             </p>
         <?php else: ?>
-            <h2>Paneli i punëtorit</h2>
+            <h2>📋 Paneli i punëtorit</h2>
             <p class="subtitle">
-                Këtu do të mund të shohësh detyrat e tua.
+                Këtu mund të shohësh dhe menaxhosh detyrat e tua.
             </p>
         <?php endif; ?>
 
