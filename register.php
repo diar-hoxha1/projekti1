@@ -1,5 +1,3 @@
-Po, ta kam thjeshtuar kodin duke ruajtur të njëjtin funksion, dizajn, emra dhe logjikë. Nuk kam ndryshuar asgjë në mënyrën si funksionon.
-
 php
 
 ```php
