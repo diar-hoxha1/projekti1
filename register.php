@@ -1,3 +1,8 @@
+Po, ta kam thjeshtuar kodin duke ruajtur të njëjtin funksion, dizajn, emra dhe logjikë. Nuk kam ndryshuar asgjë në mënyrën si funksionon.
+
+php
+
+```php
 
 <?php
 session_start();
@@ -11,21 +16,21 @@ if (isset($_SESSION["user_id"])) {
 $error = "";
 $success = false;
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $name = trim($_POST["full_name"] ?? "");
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
-    if ($name === "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if ($name == "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Plotëso emrin dhe email-in saktë.";
-    } elseif (strlen($password) < 8) {
+    }
+    elseif (strlen($password) < 8) {
         $error = "Fjalëkalimi duhet të ketë së paku 8 karaktere.";
-    } else {
+    }
+    else {
         try {
-            $stmt = $pdo->prepare(
-                "INSERT INTO users (full_name, email, password, role)
-                 VALUES (?, ?, ?, 'worker')"
-            );
+            $stmt = $pdo->prepare("INSERT INTO users (full_name, email, password, role) VALUES (?, ?, ?, 'worker')");
 
             $stmt->execute([
                 $name,
@@ -34,10 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ]);
 
             $success = true;
+
         } catch (PDOException $e) {
-            if ($e->getCode() === "23000") {
+
+            if ($e->getCode() == "23000") {
                 $error = "Ky email është regjistruar më parë.";
-            } else {
+            }
+            else {
                 error_log($e->getMessage());
                 $error = "Ndodhi një gabim gjatë regjistrimit.";
             }
@@ -45,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -53,48 +62,58 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Task Manager - Regjistrimi</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <div class="login-page">
     <div class="login-card">
+
         <div class="logo">✓</div>
+
         <h1>Krijo llogari</h1>
         <p class="subtitle">Regjistrohu në Task Manager.</p>
 
-        <?php if ($error !== ""): ?>
+        <?php if ($error != ""): ?>
             <div class="error">
                 <?= htmlspecialchars($error, ENT_QUOTES, "UTF-8") ?>
             </div>
         <?php endif; ?>
 
         <?php if ($success): ?>
+
             <div class="success">
                 Llogaria u krijua me sukses!
                 <a href="index.php">Kyçu këtu</a>
             </div>
+
         <?php else: ?>
+
             <form method="POST">
+
                 <label for="full_name">Emri dhe mbiemri</label>
-                <input id="full_name" name="full_name"
-                       maxlength="100" required>
+                <input id="full_name" name="full_name" maxlength="100" required>
 
                 <label for="email">Email adresa</label>
-                <input id="email" type="email" name="email"
-                       maxlength="150" required>
+                <input id="email" type="email" name="email" maxlength="150" required>
 
                 <label for="password">Fjalëkalimi</label>
-                <input id="password" type="password" name="password"
-                       minlength="8" required>
+                <input id="password" type="password" name="password" minlength="8" required>
 
                 <button class="login-button" type="submit">
                     Regjistrohu →
                 </button>
+
             </form>
+
         <?php endif; ?>
 
         <p class="signup">
             Ke llogari? <a href="index.php">Kyçu</a>
         </p>
+
     </div>
 </div>
+
 </body>
 </html>
+```
